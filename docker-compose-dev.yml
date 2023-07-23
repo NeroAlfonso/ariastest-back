@@ -1,0 +1,23 @@
+version: "3"
+services:
+  ariastestapi:
+    platform: linux/amd64
+    image: ariastestapi:1.0.0
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/usr/src/app
+    entrypoint: ./entrypoint-dev.sh
+    restart: always
+    env_file:
+      - .env
+  pg_database_ariastest:
+    image: postgres:latest
+    container_name: database
+    environment:
+      - POSTGRES_PASSWORD=ariastestroot
+    volumes:
+      - ./volumes/pg_data:/var/lib/postgresql/data
+      - ./volumes/pg_dump:/var/pg_dump
+    ports:
+      - "5432:5432"
